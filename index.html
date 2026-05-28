@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Css Grid</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+ <div class="container">
+  
+  <div class="content-wrapper">
+      <h1>TY TRACK</h1>
+
+      <div class="table">
+    <div class="row1">01</div>
+    <div class="row1 clickable" data-track="01" data-desc="01.WYLD 정규 1집의 타이틀곡, 야생 동물의 본능적인 움직임에서 영감을 받은 곡. 오랜시간 자신의 색깔을 응축해 온 아티스트로서의 자아를 야성미 있게 표출하여, 목표를 향해 멈추지 않고 나아가겠다는 포부.">WYLD</div>
+    <div class="row1">05</div>
+    <div class="row1 clickable" data-track="05" data-desc="05.MERMAID R&B 장르, 자신을 기다려준 팬들을 '인어'에 빗대어 애틋한 고백을 전하는 곡. 사랑과 그리움을 오가는 섬세한 보컬과 정교하게 쌓아 올린 기타 레이어가 감성적인 분위기를 만들어 냄.">MERMAID</div>
+
+    <div class="row2">02</div>
+    <div class="row2 clickable" data-track="02" data-desc="02.STORM 다채로운 랩 스타일과 차갑고 기계적인 랩 플로우가 강렬한 카타르시스를 선사하는 힙합곡. 무거운 808 베이스와 마칭 드럼 사운드 위로 덥스텝 장르만의 특정적 요소가 리듬감을 자아냄">STORM</div>
+    <div class="row2">06</div>
+    <div class="row2 clickable" data-track="06" data-desc="06.404 EUPHORIA 404 시리즈의 서사를 이어가는 곡. 혼란스러운 내면을 정면으로 마주하는 과정을 실험적이면서도 무디하게 그려냄. EP사운드에서 다이내믹한 신스, 브라스와 스트링으로 확장되는 구성.">404 EUPHORIA</div>
+
+    <div class="row3">03</div>
+    <div class="row3 clickable" data-track="03" data-desc="03.HYPNOTIC 로우파이한 질감의 피아노와 묵직한 베이스, 속도감 있는 드럼 사운드가 조화롭게 어우러짐.중독성 있는 훅이 펼쳐짐.">HYPNOTIC</div>
+    <div class="row3">07</div>
+    <div class="row3 clickable" data-track="07" data-desc="07.SKIII 속도감 있는 일렉트로닉 사운드와 힙합의 결합. 군대에서 제설 작업하면서 3분만에 만든 곡">SKIII</div>
+
+    <div class="row4">04</div>
+    <div class="row4 clickable" data-track="04" data-desc="04.I'M A DANCING CACTUS 전형성을 탈피한 EDM기반의 하우스 곡. 1980~90년대 신스 사운드와 개러지 드럼이 만드는 입체적인 그르부.">I'M A DANCING CACTUS</div>
+    <div class="row4">TITLE</div>
+    <div class="row4">1ST</div>
+      </div>
+  </div> 
+
+  <div class="photo-screen" onclick="goToMain(event)">
+      <div class="split-left">
+          <img id="track-image" src="" alt="">
+      </div>
+      <div class="split-right">
+          <p id="typing-text"></p>
+          <span class="cursor">|</span>
+      </div>
+  </div>
+
+ </div>
+
+ <script>
+     const contentWrapper = document.querySelector('.content-wrapper');
+     const photoScreen = document.querySelector('.photo-screen');
+     const trackImage = document.getElementById('track-image');
+     const typingText = document.getElementById('typing-text');
+     
+     let typingInterval; 
+
+     function typeWriter(text, speed) {
+         let i = 0;
+         typingText.innerHTML = ""; 
+         clearInterval(typingInterval); 
+         
+         typingInterval = setInterval(() => {
+             if (i < text.length) {
+                 typingText.innerHTML += text.charAt(i);
+                 i++;
+             } else {
+                 clearInterval(typingInterval); 
+             }
+         }, speed);
+     }
+
+     document.querySelectorAll('.clickable').forEach(item => {
+         item.addEventListener('click', function() {
+             const trackNumber = this.getAttribute('data-track');
+             const presetText = this.getAttribute('data-desc') || "";
+             
+             trackImage.src = "images/" + trackNumber + ".jpg"; 
+             contentWrapper.classList.add('fade-out-down');
+             
+             setTimeout(() => {
+                 photoScreen.classList.add('active');
+                 typeWriter(presetText, 70); 
+             }, 800);
+         });
+     });
+
+     function goToMain(event) {
+         if (photoScreen.classList.contains('active')) {
+             photoScreen.classList.remove('active');
+             contentWrapper.classList.remove('fade-out-down');
+             clearInterval(typingInterval);
+             typingText.innerHTML = "";
+         }
+     }
+ </script>
+</body>
+</html>
